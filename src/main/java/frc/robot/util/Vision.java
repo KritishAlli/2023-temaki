@@ -112,8 +112,8 @@ public class Vision {
                     bestPose.getX(),
                     bestPose.getY(),
                     new Rotation2d(bestPose.getRotation().getZ())), 
-                    edu.wpi.first.wpilibj.Timer.getFPGATimestamp(), //TODO :  - (res.getLatencyMillis()/1000),
-                bestTarget.getPoseAmbiguity()); 
+                    res.getTimestampSeconds(),
+                    bestTarget.getPoseAmbiguity()); 
         }
 
         measurements.clear();
@@ -133,7 +133,7 @@ public class Vision {
                     estRobotPose.getX(),
                     estRobotPose.getY(),
                     new Rotation2d(estRobotPose.getRotation().getZ())), 
-                edu.wpi.first.wpilibj.Timer.getFPGATimestamp(), //TODO :  - (res.getLatencyMillis()/1000),
+                    res.getTimestampSeconds(),
                 target.getPoseAmbiguity())); 
         }
     }
