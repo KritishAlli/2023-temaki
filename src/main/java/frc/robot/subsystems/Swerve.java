@@ -81,7 +81,7 @@ public class Swerve extends SubsystemBase {
         );
 
         locationLock = false;
-        locationLockPID = new PIDController(0.1, 0, 0);
+        locationLockPID = new PIDController(Constants.kAutoAlign.THETA_P, Constants.kAutoAlign.THETA_I, Constants.kAutoAlign.THETA_D);
 
         SmartDashboard.putData("Field", field);
     }
