@@ -205,7 +205,7 @@ public final class Constants {
             VecBuilder.fill(4.2, 4.2, 0.1);
 
         public static final Matrix<N3, N1> VISION_STANDARD_DEVIATION = 
-            VecBuilder.fill(20.0, 20.0, 0.0);
+            VecBuilder.fill(100, 100, 3); // TODO : tune values properly
 
         /* Module Specific Constants */
 
@@ -324,7 +324,7 @@ public final class Constants {
         public static final double Y_TOLLERENCE = 0.02;
         public static final double THETA_TOLLERENCE = 0.02;
 
-        /* Pid values */
+        /* Pid values */ // TODO : tune properly
         public static final double X_P = 3.0;
         public static final double X_I = 0.0;
         public static final double X_D = 0.75;
@@ -505,6 +505,8 @@ public final class Constants {
 
     /** Vision constants. */
     public static class kVision {
+
+        public static final double AMBIGUITY_THRESHOLD = 0.15;
 
         public static final AprilTagFieldLayout APRIL_TAG_FIELD_LAYOUT = createFieldLayout();
 

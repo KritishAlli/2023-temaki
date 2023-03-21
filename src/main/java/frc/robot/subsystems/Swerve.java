@@ -81,7 +81,7 @@ public class Swerve extends SubsystemBase {
         );
 
         locationLock = false;
-        locationLockPID = new PIDController(0.1d, 0, 0);
+        locationLockPID = new PIDController(0.1, 0, 0);
 
         SmartDashboard.putData("Field", field);
     }
@@ -100,60 +100,8 @@ public class Swerve extends SubsystemBase {
         locationLock = false;
     }
 
-    /**
-     * Returns a command that will drive the specified offset from the given 
-     * April Tag.
-     *
-     * @param tagOffset The offset of the tag in tag space (x+ away from
-     *      tag, y+ left from tag). A null value will default to 1 meter in front of
-     *      the target.
-     */
-    public Command moveToAprilTag(int tagID, Translation2d tagOffset) {
-        return moveToPose(
-            () -> kVision.APRIL_TAG_FIELD_LAYOUT.getTagPose(tagID).get().toPose2d(),
-            tagOffset
-        );
-    }
-
-    /**
-     * Returns a command that will drive the specified offset from the nearest 
-     * April Tag.
-     *
-     * @param tagOffset The offset of the tag in tag space (x+ away from
-     *      tag, y+ left from tag). A null value will default to 1 meter in front of
-     *      the target.
-     */
-    public Command moveToNearestAprilTag(Translation2d tagOffset) {
-        return moveToPose(() -> getClosestAprilTag(), tagOffset);
-    }
-
-    private Pose2d getClosestAprilTag() {
-        Translation2d currentTranslation = swerveOdometry
-            .getEstimatedPosition()
-            .getTranslation(); 
-
-        SmartDashboard.putNumber("Robot x", currentTranslation.getX());
-        SmartDashboard.putNumber("Roybot y", currentTranslation.getY());
-
-
-        double minDistance = Double.MAX_VALUE;
-        AprilTag closestTag = null;
-
-        for (AprilTag tag : Constants.kVision.APRIL_TAG_FIELD_LAYOUT.getTags()) {
-            Translation2d tagTranslation = tag.pose.toPose2d().getTranslation();
-            double distanceToTag = currentTranslation.getDistance(tagTranslation);
-
-            SmartDashboard.putNumber("Tag Distance" + tag.ID, distanceToTag);
-
-            if (distanceToTag < minDistance) {
-                minDistance = distanceToTag;
-                closestTag = tag;
-            }
-        }
-
-        return closestTag.pose.toPose2d(); 
-    }
-
+   
+ 
     /**
      * Returns a command that will drive the specified offset from the given
      * pose.
@@ -248,19 +196,19 @@ public class Swerve extends SubsystemBase {
         );
     }
 
-    public void drive(Translation2d translation, 
+    public void driveWithRotationLock(Translation2d translation, 
         double rotation, boolean fieldRelative, boolean isOpenLoop
     ) {
         if (locationLock) {
-            rotation = locationLockPID.calculate(gyro.getAngle().getDegrees());
+            rotation = locationLockPID.calculate(swerveOdometry.getEstimatedPosition().getRotation().getDegrees());
         }
-        driveWithLocationLock(translation, rotation, fieldRelative, isOpenLoop);
+        drive(translation, rotation, fieldRelative, isOpenLoop);
     }
 
     /**
      * Updates the swerve module values for the swerve.
      */
-    private void driveWithLocationLock(Translation2d translation, 
+    public void drive(Translation2d translation, 
         double rotation, boolean fieldRelative, boolean isOpenLoop
     ) {
         SwerveModuleState[] swerveModuleStates = kSwerve.SWERVE_KINEMATICS.toSwerveModuleStates(
@@ -363,16 +311,13 @@ public class Swerve extends SubsystemBase {
 
         if (measurements != null) {
             for (VisionMeasurement measurement : measurements) {
-                // Skip measurement if it's more than a meter away
-                if (measurement.robotPose.getTranslation().getDistance(swerveOdometry.getEstimatedPosition().getTranslation()) > 1.0 && measurement.ambiguity > 0.1) {
-                    continue;
+                if (measurement.ambiguity < Constants.kVision.AMBIGUITY_THRESHOLD) {
+                    swerveOdometry.addVisionMeasurement(
+                        measurement.robotPose,
+                        measurement.timestampSeconds,
+                        Constants.kSwerve.VISION_STANDARD_DEVIATION.times(measurement.ambiguity)
+                    );
                 }
-        
-                swerveOdometry.addVisionMeasurement(
-                    measurement.robotPose,
-                    measurement.timestampSeconds,
-                    kSwerve.VISION_STANDARD_DEVIATION
-                );
             }
         }
     }
