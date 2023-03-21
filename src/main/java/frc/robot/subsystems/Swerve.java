@@ -302,6 +302,7 @@ public class Swerve extends SubsystemBase {
 
         // Loop through all measurements and add it to pose estimator
         List<VisionMeasurement> measurements = Vision.getVision().getMeasurements();
+        VisionMeasurement bestMeasurement = Vision.getVision().getBestMeasurement();
 
         field.getObject("best")
             .setPoses(measurements.stream().map(
@@ -309,16 +310,12 @@ public class Swerve extends SubsystemBase {
             )
             .collect(Collectors.toList()));
 
-        if (measurements != null) {
-            for (VisionMeasurement measurement : measurements) {
-                if (measurement.ambiguity < Constants.kVision.AMBIGUITY_THRESHOLD) {
-                    swerveOdometry.addVisionMeasurement(
-                        measurement.robotPose,
-                        measurement.timestampSeconds,
-                        Constants.kSwerve.VISION_STANDARD_DEVIATION.times(measurement.ambiguity)
-                    );
-                }
-            }
+        if (bestMeasurement != null && bestMeasurement.ambiguity < Constants.kVision.AMBIGUITY_THRESHOLD) {
+            swerveOdometry.addVisionMeasurement(
+                bestMeasurement.robotPose,
+                bestMeasurement.timestampSeconds,
+                Constants.kSwerve.VISION_STANDARD_DEVIATION.times(bestMeasurement.ambiguity)
+            );
         }
     }
 
