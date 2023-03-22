@@ -99,8 +99,6 @@ public class Swerve extends SubsystemBase {
     public void turnOfLocationLock() {
         locationLock = false;
     }
-
-   
  
     /**
      * Returns a command that will drive the specified offset from the given
@@ -289,7 +287,6 @@ public class Swerve extends SubsystemBase {
     public Command resetOdometryToBestAprilTag() {
         return runOnce(() -> {
             VisionMeasurement measurement = Vision.getVision().getBestMeasurement();
-            SmartDashboard.putBoolean("Running", measurement == null);
             if (measurement != null) {
                 this.resetOdometryAndGyro(measurement.robotPose);
             }
