@@ -196,6 +196,43 @@ public class Swerve extends SubsystemBase {
         );
     }
 
+    private Pose2d getClosestScoringPos() {
+        Translation2d currentTranslation = swerveOdometry
+            .getEstimatedPosition()
+            .getTranslation(); 
+
+        SmartDashboard.putNumber("Robot x", currentTranslation.getX());
+        SmartDashboard.putNumber("Roybot y", currentTranslation.getY());
+
+        double minDistance = Double.MAX_VALUE;
+        Pose2d closestScoringPos = null;
+
+        for (Pose2d pos : Constants.kAutoAlign.SCORING_POSES) {
+            Translation2d translation = pos.getTranslation();
+            double distance = currentTranslation.getDistance(translation);
+
+            SmartDashboard.putNumber("Scoring Pos Distance", distance);
+
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestScoringPos = pos;
+            }
+        }
+
+        return closestScoringPos; 
+    }
+
+    public Command moveToNearestScoringPos(Translation2d tagOffset) {
+        return moveToPose(() -> getClosestScoringPos(), tagOffset);
+    }
+
+    public Command moveToAprilTag(int tagID, Translation2d tagOffset) {
+        return moveToPose(
+            () -> kVision.APRIL_TAG_FIELD_LAYOUT.getTagPose(tagID).get().toPose2d(),
+            tagOffset
+        );
+    }
+
     public void driveWithRotationLock(Translation2d translation, 
         double rotation, boolean fieldRelative, boolean isOpenLoop
     ) {

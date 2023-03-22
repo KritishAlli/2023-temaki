@@ -234,7 +234,7 @@ public class RobotContainer {
         ));
 
         oi.getDriverController().rightBumper().whileTrue(
-            swerve.moveToNearestAprilTag(null)
+            swerve.moveToNearestScoringPos(null)
         );
 
         // // Reset odo
@@ -249,11 +249,11 @@ public class RobotContainer {
         );
 
         oi.getDriverController().povLeft().whileTrue(
-            swerve.moveToNearestAprilTag(new Translation2d(0.8, 0.6))
+            swerve.moveToNearestScoringPos(new Translation2d(0.8, 0.6))
         );
 
         oi.getDriverController().povRight().whileTrue(
-            swerve.moveToNearestAprilTag(new Translation2d(0.8, -0.6))
+            swerve.moveToNearestScoringPos(new Translation2d(0.8, -0.6))
         );
     }
 
