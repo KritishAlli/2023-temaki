@@ -326,13 +326,13 @@ public final class Constants {
         public static final double THETA_TOLLERENCE = 0.02;
 
         /* Pid values */ // TODO : tune properly
-        public static final double X_P = 6.0;
+        public static final double X_P = 9.0;
         public static final double X_I = 0.0;
-        public static final double X_D = 0.75;
+        public static final double X_D = 0.0;
 
-        public static final double Y_P = 6.0;
+        public static final double Y_P = 9.0;
         public static final double Y_I = 0.0;
-        public static final double Y_D = 0.75;
+        public static final double Y_D = 0.0;
         
         public static final double THETA_P = 6.0;
         public static final double THETA_I = 0.0;
@@ -345,9 +345,13 @@ public final class Constants {
             new Pose2d(15.513558, 1.071626, Rotation2d.fromDegrees(180)),
             new Pose2d(15.513558, 2.748026, Rotation2d.fromDegrees(180)),
             new Pose2d(15.513558, 4.424426, Rotation2d.fromDegrees(180)),
-            new Pose2d(1.1, 1.071626, Rotation2d.fromDegrees(0)),
-            new Pose2d(1.1, 2.748026, Rotation2d.fromDegrees(0)),
-            new Pose2d(1.1, 4.424426, Rotation2d.fromDegrees(0))
+            new Pose2d(1.3, 1.071626, Rotation2d.fromDegrees(0)),
+            new Pose2d(1.3, 1.64, Rotation2d.fromDegrees(0)),
+            new Pose2d(1.3, 2.1, Rotation2d.fromDegrees(0)),
+            new Pose2d(1.3, 2.748026, Rotation2d.fromDegrees(0)),
+            new Pose2d(1.3, 3.3, Rotation2d.fromDegrees(0)),
+            new Pose2d(1.3, 3.8, Rotation2d.fromDegrees(0)),
+            new Pose2d(1.3, 4.424426, Rotation2d.fromDegrees(0))
         };
     }
 
