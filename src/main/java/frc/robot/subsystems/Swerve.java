@@ -348,7 +348,7 @@ public class Swerve extends SubsystemBase {
             swerveOdometry.addVisionMeasurement(
                 bestMeasurement.robotPose,
                 bestMeasurement.timestampSeconds,
-                Constants.kSwerve.VISION_STANDARD_DEVIATION.times(bestMeasurement.ambiguity)
+                Constants.kSwerve.VISION_STANDARD_DEVIATION
             );
         }
     }

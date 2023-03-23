@@ -206,7 +206,7 @@ public final class Constants {
             VecBuilder.fill(4.2, 4.2, 0.1);
 
         public static final Matrix<N3, N1> VISION_STANDARD_DEVIATION = 
-            VecBuilder.fill(100, 100, 3); // TODO : tune values properly
+            VecBuilder.fill(100, 100, 200); // TODO : tune values properly
 
         /* Module Specific Constants */
 
@@ -326,11 +326,11 @@ public final class Constants {
         public static final double THETA_TOLLERENCE = 0.02;
 
         /* Pid values */ // TODO : tune properly
-        public static final double X_P = 3.0;
+        public static final double X_P = 6.0;
         public static final double X_I = 0.0;
         public static final double X_D = 0.75;
 
-        public static final double Y_P = 3.0;
+        public static final double Y_P = 6.0;
         public static final double Y_I = 0.0;
         public static final double Y_D = 0.75;
         
@@ -342,12 +342,12 @@ public final class Constants {
         public static final Translation2d DEFAULT_OFFSET = new Translation2d(1.0, 0);
 
         public static final Pose2d[] SCORING_POSES = {
-            new Pose2d(15.513558, 1.071626, Rotation2d.fromDegrees(0)),
-            new Pose2d(15.513558, 2.748026, Rotation2d.fromDegrees(0)),
-            new Pose2d(15.513558, 4.424426, Rotation2d.fromDegrees(0)),
-            new Pose2d(0.462788, 1.071626, Rotation2d.fromDegrees(180)),
-            new Pose2d(0.462788, 2.748026, Rotation2d.fromDegrees(180)),
-            new Pose2d(0.462788, 4.424426, Rotation2d.fromDegrees(180))
+            new Pose2d(15.513558, 1.071626, Rotation2d.fromDegrees(180)),
+            new Pose2d(15.513558, 2.748026, Rotation2d.fromDegrees(180)),
+            new Pose2d(15.513558, 4.424426, Rotation2d.fromDegrees(180)),
+            new Pose2d(1.1, 1.071626, Rotation2d.fromDegrees(0)),
+            new Pose2d(1.1, 2.748026, Rotation2d.fromDegrees(0)),
+            new Pose2d(1.1, 4.424426, Rotation2d.fromDegrees(0))
         };
     }
 
